@@ -11,7 +11,20 @@ function mergeSort(arr) {
   // Recursively sort the right half
 
   // Merge the halves together and return
+  
+  if (arr.length <= 1) {
+    return arr
+  }
 
+  let half = parseInt(arr.length / 2)
+
+  const array1 = arr.slice(0, half)
+  const array2 = arr.slice(half)
+
+  const sortedArray1 = mergeSort(array1)
+  const sortedArray2 = mergeSort(array2)
+
+  return merge(sortedArray1, sortedArray2)
 }
 
 
@@ -28,6 +41,25 @@ function merge(arrA, arrB) {
 
   // Return the return array
 
+  const merged = []
+  let pointerA = 0
+  let pointerB = 0
+
+  while (arrA.length !== 0 || arrB.length !== 0) {
+    if (arrA[pointerA] < arrB[pointerB]) {
+      merged.push(arrA.splice(pointerA, 1)[0])
+    } else if (arrA[pointerA] > arrB[pointerB]) {
+      merged.push(arrB.splice(pointerB, 1)[0])
+    } else {
+      if (arrA.length === 0) {
+        return merged.concat(arrB)
+      } else {
+        return merged.concat(arrA)
+      }
+    }
+  }
+
+  return merged
 }
 
 module.exports = [merge, mergeSort];
